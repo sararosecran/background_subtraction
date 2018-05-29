@@ -66,12 +66,21 @@ nwalkers = 100
 pos = [popt + 1e-4*np.random.randn(ndim) for i in range(nwalkers)] #initial position, near initial guess
 sampler = emcee.EnsembleSampler(nwalkers, ndim, chi2_func, args=(x, y, pix_val, var)) #create ensembles of walkers
 sampler.run_mcmc(pos, 500) #run the mcmc for 500 steps
-#plt.plot(sampler.chain[:,:,1].T, '-', color='k', alpha=0.3)
-#plt.show()
+plt.plot(sampler.chain[:,:,0].T, '-', color='k', alpha=0.3)
+plt.show()
+plt.plot(sampler.chain[:,:,1].T, '-', color='k', alpha=0.3)
+plt.show()
+plt.plot(sampler.chain[:,:,2].T, '-', color='k', alpha=0.3)
+plt.show()
+plt.plot(sampler.chain[:,:,3].T, '-', color='k', alpha=0.3)
+plt.show()
 samples = sampler.chain[:, 499:, :].reshape((-1, ndim)) #flattens the chain
 norm_a0, norm_a1, norm_a2, norm_a3 = map(lambda v: (v[1], v[2]- v[1], v[1]-v[0]), zip(*np.percentile(samples, [16,50,84], axis=0))) # gives best fit parameters
 
-
+print 'med, 1 & 2 sig (a0): ', norm_a0
+print 'med, 1 & 2 sig (a1): ', norm_a1
+print 'med, 1 & 2 sig (a1): ', norm_a2
+print 'med, 1 & 2 sig (a1): ', norm_a3
 
 
 #chi2 minimization, large number of steps
